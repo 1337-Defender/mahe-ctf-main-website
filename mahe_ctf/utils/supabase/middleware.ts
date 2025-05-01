@@ -1,6 +1,40 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
+// Helper function to check if a path should be considered public
+const isPublicPath = (path: string): boolean => {
+  // List your public paths here
+  const publicPaths = [
+    '/',          // Home page
+    '/sign-in',   // Sign-in page
+    '/sign-up',   // Sign-up page
+    // Add any other public paths, e.g.:
+    // '/about',
+    // '/pricing',
+  ];
+
+  // Check for exact matches
+  if (publicPaths.includes(path)) {
+    return true;
+  }
+
+  // Check for patterns (e.g., auth callbacks, public API routes)
+  if (path.startsWith('/auth/')) { // e.g., /auth/callback
+    return true;
+  }
+  // Example: Allow specific public API routes if needed
+  // if (path.startsWith('/api/public/')) {
+  //   return true;
+  // }
+
+  // You might want to explicitly allow Next.js internals, although the matcher usually handles this
+  // if (path.startsWith('/_next/')) {
+  //   return true;
+  // }
+
+  return false;
+};
+
 export const updateSession = async (request: NextRequest) => {
   // This `try/catch` block is only here for the interactive tutorial.
   // Feel free to remove once you have Supabase connected.
@@ -40,7 +74,7 @@ export const updateSession = async (request: NextRequest) => {
     const user = await supabase.auth.getUser();
 
     // protected routes
-    if (request.nextUrl.pathname.startsWith("/protected") && user.error) {
+    if (!isPublicPath(request.nextUrl.pathname) && user.error) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
