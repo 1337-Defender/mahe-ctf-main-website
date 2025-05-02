@@ -23,16 +23,16 @@ const categories = [
     label: "Forensic Quests",
   },
   {
-    name: "pwn",
+    name: "reversing",
     icon: Pickaxe,
     description: "Mine through binary defenses",
     label: "Binary Mining",
   },
   {
-    name: "misc",
+    name: "osint",
     icon: Skull,
     description: "Various challenges for brave adventurers",
-    label: "Miscellaneous",
+    label: "OSINT",
   },
 ]
 
@@ -44,7 +44,7 @@ export function ChallengeCategories() {
         const stats = getCategoryStats(category.name)
 
         return (
-          <Link key={category.name} href={`/dashboard/${category.name}`}>
+          <Link key={category.name} href={`/challenges/${category.name}`}>
             <Card className="hover:bg-stone-800/80 transition-colors cursor-pointer border-4 border-neutral-800 bg-neutral-900">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-b-2 border-neutral-700">
                 <CardTitle className="text-lg">{category.label}</CardTitle>
