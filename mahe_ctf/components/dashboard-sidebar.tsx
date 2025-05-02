@@ -9,8 +9,8 @@ const categories = [
   { name: "web", icon: Network },
   { name: "crypto", icon: Lock },
   { name: "forensics", icon: Shield },
-  { name: "pwn", icon: Terminal },
-  { name: "misc", icon: Flag },
+  { name: "reversing", icon: Terminal },
+  { name: "osint", icon: Flag },
 ]
 
 export function DashboardSidebar() {
@@ -26,11 +26,11 @@ export function DashboardSidebar() {
           <h3 className="mb-2 px-4 text-xs font-semibold text-muted-foreground">Overview</h3>
           <div className="space-y-1">
             <Button
-              variant={pathname === "/dashboard" ? "secondary" : "ghost"}
+              variant={pathname === "/challenges" ? "secondary" : "ghost"}
               className="w-full justify-start"
               asChild
             >
-              <Link href="/dashboard">
+              <Link href="/challenges">
                 <Home className="mr-2 h-4 w-4" />
                 Dashboard
               </Link>
@@ -42,7 +42,7 @@ export function DashboardSidebar() {
           <div className="space-y-1">
             {categories.map((category) => {
               const CategoryIcon = category.icon
-              const isActive = pathname === `/dashboard/${category.name}`
+              const isActive = pathname === `/challenges/${category.name}`
 
               return (
                 <Button
