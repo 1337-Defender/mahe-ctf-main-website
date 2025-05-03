@@ -1,5 +1,5 @@
 export interface Challenge {
-  id: string
+  id: number
   name: string
   description: string
   difficulty: "easy" | "medium" | "hard"
