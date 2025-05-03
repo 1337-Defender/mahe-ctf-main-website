@@ -13,7 +13,7 @@ const categories = [
   { name: "osint", icon: Flag },
 ]
 
-export function DashboardSidebar() {
+export function DashboardSidebar({teamName}: {teamName: string}) {
   const pathname = usePathname()
 
   return (
@@ -63,9 +63,9 @@ export function DashboardSidebar() {
         <div className="mt-auto p-4 border-t">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold">
-              T
+              {teamName.slice(0, 2).toUpperCase()}
             </div>
-            <div className="text-sm font-medium">Team Hackers</div>
+            <div className="text-sm font-medium">{teamName}</div>
           </div>
         </div>
       </div>
