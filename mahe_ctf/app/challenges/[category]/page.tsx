@@ -1,6 +1,7 @@
 import { ChallengeList } from "@/components/challenge-list"
-import { getChallenges } from "@/lib/data"
+import { getChallenges as oldGetChallenges } from "@/lib/data"
 import { notFound } from "next/navigation"
+import {getChallenges} from "@/lib/actions";
 
 const getCategoryLabel = (category: string) => {
   const labels: Record<string, string> = {
@@ -15,7 +16,7 @@ const getCategoryLabel = (category: string) => {
 
 export default async function CategoryPage({ params }: { params: { category: string } }) {
   const { category } = await params;
-  const challenges = getChallenges(category)
+  const challenges = await getChallenges(category);
 
   if (!challenges) {
     notFound()
