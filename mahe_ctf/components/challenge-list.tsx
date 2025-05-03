@@ -11,9 +11,10 @@ import { CheckCircle2, Clock, ExternalLink, Eye, Tag } from "lucide-react"
 interface ChallengeListProps {
   challenges: Challenge[]
   category: string
+  teamMemberData?: any
 }
 
-export function ChallengeList({ challenges, category }: ChallengeListProps) {
+export function ChallengeList({ challenges, category, teamMemberData }: ChallengeListProps) {
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null)
   const [open, setOpen] = useState(false)
 
@@ -171,7 +172,8 @@ export function ChallengeList({ challenges, category }: ChallengeListProps) {
       </div>
 
       {selectedChallenge && (
-        <ChallengeDialog challenge={selectedChallenge} open={open} onOpenChange={setOpen} category={category} />
+        <ChallengeDialog challenge={selectedChallenge} open={open} onOpenChange={setOpen} category={category}
+                         teamMemberData={teamMemberData} />
       )}
     </>
   )
