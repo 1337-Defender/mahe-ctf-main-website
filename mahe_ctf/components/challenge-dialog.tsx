@@ -1,6 +1,6 @@
 "use client"
 
-import type React from "react"
+import React, {useEffect} from "react"
 
 import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
@@ -25,12 +25,23 @@ interface ChallengeDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   category: string
+  teamMemberData?: any
 }
 
-export function ChallengeDialog({ challenge, open, onOpenChange, category }: ChallengeDialogProps) {
+export function ChallengeDialog({ challenge, open, onOpenChange, category, teamMemberData }: ChallengeDialogProps) {
   const [flag, setFlag] = useState("")
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle")
   const [message, setMessage] = useState("")
+
+  // --- Add useEffect to reset state ---
+  useEffect(() => {
+    // Reset state when the dialog is opened OR when the challenge prop changes
+    if (open) {
+      setStatus("idle");
+      setMessage("");
+      setFlag(""); // Also clear the flag input
+    }
+  }, [open, challenge.id]); // Depend on open status and challenge ID
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,14 +51,14 @@ export function ChallengeDialog({ challenge, open, onOpenChange, category }: Cha
     setStatus("submitting")
 
     try {
-      const result = await verifyFlag(challenge.id, flag)
+      const result = await verifyFlag(challenge.id, teamMemberData.team.id, flag)
 
       if (result.success) {
         setStatus("success")
-        setMessage("Flag is correct! Challenge solved.")
+        setMessage(result.message)
       } else {
         setStatus("error")
-        setMessage("Incorrect flag. Try again.")
+        setMessage(result.message || "An error occurred. Please try again.")
       }
     } catch (error) {
       setStatus("error")
