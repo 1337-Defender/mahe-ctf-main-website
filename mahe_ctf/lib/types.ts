@@ -29,3 +29,11 @@ export interface CategoryStats {
   solved: number
   total: number
 }
+
+export interface LeaderboardStats {
+  team_id: number
+  team_name: string
+  score: number
+  last_solve_timestamp: string,
+  rank: number
+}
