@@ -2,6 +2,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { Database } from "@/types/supabase";
 import {revalidatePath} from "next/cache";
+import {LeaderboardStats} from "@/lib/types";
 
 // This is a mock implementation of flag verification
 // In a real application, this would verify against a database
@@ -76,4 +77,11 @@ export async function getTeamMemberInfo() {
         .single();
 
     return teamMemberData;
+}
+
+export async function getLeaderboard(): Promise<LeaderboardStats[]> {
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc("get_leaderboard");
+    console.log(data);
+    return data;
 }
